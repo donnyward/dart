@@ -45,6 +45,35 @@ int dartcCreateMultibody(
     positions[5] = 10;
     joint->setPositions(positions);
 
+    //2nd
+    auto childPair = skeleton->createJointAndBodyNodePair<dart::dynamics::BallJoint>(body);
+    dart::dynamics::JointPtr childJoint = childPair.first;
+    dart::dynamics::BodyNodePtr childBody = childPair.second;
+
+    dart::dynamics::BoxShapePtr childBoxShape = std::make_shared<dart::dynamics::BoxShape>(
+        Eigen::Vector3d(
+            1,
+            1,
+            1));
+    /*mbInfo.BoneInfo[0].HalfExtents.x * 2,
+      mbInfo.BoneInfo[0].HalfExtents.y * 2,
+      mbInfo.BoneInfo[0].HalfExtents.z * 2));
+    */
+    childBody->createShapeNodeWith<dart::dynamics::CollisionAspect, dart::dynamics::DynamicsAspect>(boxShape);
+    childBody->setInertia(inertia);
+
+    // Set the starting position for the body
+    //Eigen::Vector6d positions(Eigen::Vector6d::Zero());
+    //positions[5] = 10;
+    //joint->setPositions(positions);
+    Eigen::Isometry3d xform(Eigen::Isometry3d::Identity());
+    xform.translation() = Eigen::Vector3d(
+        1,
+        0,
+        1);
+    childJoint->setTransformFromParentBodyNode(xform);
+    childJoint->setTransformFromChildBodyNode(xform.inverse());
+
     g_Context->world->addSkeleton(skeleton);
     g_Context->testSkeleton = skeleton;
     return 1;
@@ -85,12 +114,6 @@ void dartcCreatePhysicsWorld()
     g_Context->world = new dart::simulation::World;
 }
 
-float dartcDartCTest()
-{
-    Eigen::VectorXd pos = g_Context->testSkeleton->getPositions();
-    return pos(5);
-}
-
 void dartcDestroyPhysicsWorld()
 {
     if (g_Context && g_Context->world)
@@ -102,6 +125,19 @@ void dartcDestroyPhysicsWorld()
     g_Context = nullptr;
 }
 
+dartcState dartcGetState(int multibodyId)
+{
+    dartcState st;
+    Eigen::VectorXd pos = g_Context->testSkeleton->getPositions();
+    st.x1= pos(3);
+    st.y1= pos(4);
+    st.z1= pos(5);
+
+    st.angx1 = pos(6);
+    st.angy1 = pos(7);
+    st.angz1 = pos(8);
+    return st;
+}
 
 void dartcSetTimestep(float seconds)
 {
@@ -113,6 +149,6 @@ void dartcSetTimestep(float seconds)
 
 void dartcStepWorld()
 {
-        g_Context->world->step();
+    g_Context->world->step();
 }
 

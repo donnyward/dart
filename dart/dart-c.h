@@ -2,6 +2,17 @@
 
 extern "C"
 {
+    struct dartcState
+    {
+        float x1;
+        float y1;
+        float z1;
+
+        float angx1;
+        float angy1;
+        float angz1;
+    };
+
     int dartcCreateMultibody(
         float offsetX,
         float offsetY,
@@ -19,8 +30,6 @@ extern "C"
         float posX,
         float posY,
         float posZ);
-
-    float dartcDartCTest();
 
     void dartcDestroyPhysicsWorld();
 
@@ -49,6 +58,8 @@ extern "C"
         void SetGravity(float x, float y, float z);
 
 	*/
+
+    dartcState dartcGetState(int multibodyId);
 
     void dartcSetTimestep(float seconds);
 
