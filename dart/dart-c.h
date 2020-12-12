@@ -2,15 +2,19 @@
 
 extern "C"
 {
-	void CreatePhysicsWorld();
+    int dartcCreateMultibody(
+        float offsetX,
+        float offsetY,
+        float offsetZ);
 
-	void DestroyPhysicsWorld();
+    void dartcCreatePhysicsWorld();
 
-	/*
-        int CreateMultibody(
-            const MultibodyConstructionInfo& mbInfo,
-            const Vector& offsetPos = {0, 0, 0});
+    float dartcDartCTest();
 
+    void dartcDestroyPhysicsWorld();
+
+
+    /*
         void CreateStaticBox(
             float halfExtentsX,
             float halfExtentsY,
@@ -35,8 +39,6 @@ extern "C"
 
 	*/
 
-	int DartCTest(int x);
         
-        void StepWorld(float seconds);
-
+    void dartcStepWorld(float seconds);
 }
