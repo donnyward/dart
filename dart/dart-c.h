@@ -50,6 +50,7 @@ extern "C"
 
 	*/
 
-        
-    void dartcStepWorld(float seconds);
+    void dartcSetTimestep(float seconds);
+
+    void dartcStepWorld();
 }

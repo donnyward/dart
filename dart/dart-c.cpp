@@ -102,14 +102,17 @@ void dartcDestroyPhysicsWorld()
     g_Context = nullptr;
 }
 
-void dartcStepWorld(float seconds)
+
+void dartcSetTimestep(float seconds)
 {
     if (g_Context && g_Context->world)
     {
-        //TODO don't do this every step...
         g_Context->world->setTimeStep(seconds);
-
-        g_Context->world->step();
     }
+}
+
+void dartcStepWorld()
+{
+        g_Context->world->step();
 }
 
