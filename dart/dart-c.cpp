@@ -50,6 +50,35 @@ int dartcCreateMultibody(
     return 1;
 }
 
+void dartcCreateStaticBox(
+    float lengthX,
+    float lengthY,
+    float lengthZ,
+    float posX,
+    float posY,
+    float posZ)
+{
+    dart::dynamics::SkeletonPtr skeleton = dart::dynamics::Skeleton::create("box");
+
+    auto pair = skeleton->createJointAndBodyNodePair<dart::dynamics::WeldJoint>();
+    dart::dynamics::JointPtr joint = pair.first;
+    dart::dynamics::BodyNodePtr body = pair.second;
+
+    std::shared_ptr<dart::dynamics::BoxShape> shape = std::make_shared<dart::dynamics::BoxShape>(
+        Eigen::Vector3d(lengthX, lengthY, lengthZ));
+    auto shapeNode
+        = body->createShapeNodeWith<dart::dynamics::CollisionAspect, dart::dynamics::DynamicsAspect>(shape);
+
+    Eigen::Isometry3d xform(Eigen::Isometry3d::Identity());
+    xform.translation() = Eigen::Vector3d(
+        posX,
+        posY,
+        posZ);
+    joint->setTransformFromParentBodyNode(xform);
+
+    g_Context->world->addSkeleton(skeleton);
+}
+
 void dartcCreatePhysicsWorld()
 {
     g_Context = new Context;

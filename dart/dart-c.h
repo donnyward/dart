@@ -9,6 +9,17 @@ extern "C"
 
     void dartcCreatePhysicsWorld();
 
+    /*
+     * Mainly for creating the ground.
+     */
+    void dartcCreateStaticBox(
+        float lengthX,
+        float lengthY,
+        float lengthZ,
+        float posX,
+        float posY,
+        float posZ);
+
     float dartcDartCTest();
 
     void dartcDestroyPhysicsWorld();
