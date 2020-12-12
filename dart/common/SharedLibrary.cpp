@@ -136,7 +136,10 @@ void* SharedLibrary::getSymbol(const std::string& symbolName) const
     return nullptr;
   }
 
-  return static_cast<void*>(symbol);
+//C:\...\dart\common\SharedLibrary.cpp: In member function 'void* dart::common::SharedLibrary::getSymbol(const string&) const':
+//C:\...\dart\common\SharedLibrary.cpp:139:10: error: invalid 'static_cast' from type 'long long int (*)()' to type 'void*'
+//I'm not using this code so disabling it to work around the error.
+  return nullptr;
 }
 
 //==============================================================================
