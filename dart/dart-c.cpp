@@ -40,9 +40,10 @@ int dartcCreateMultibody(
     inertia.setMoment(boxShape->computeInertia(mass));
     body->setInertia(inertia);
 
-    Eigen::Isometry3d xform(Eigen::Isometry3d::Identity());
-    xform.translation() = Eigen::Vector3d(0, 0, 10);
-    joint->setTransformFromParentBodyNode(xform);
+    // Set the starting position for the root body
+    Eigen::Vector6d positions(Eigen::Vector6d::Zero());
+    positions[5] = 10;
+    joint->setPositions(positions);
 
     g_Context->world->addSkeleton(skeleton);
     g_Context->testSkeleton = skeleton;
