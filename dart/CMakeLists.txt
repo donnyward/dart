@@ -112,7 +112,11 @@ endif()
 
 # Set header and source files
 get_filename_component(dart_hpp "dart.hpp" ABSOLUTE)
+get_filename_component(dart-c_h "dart-c.h" ABSOLUTE)
+get_filename_component(dart-c_cpp "dart-c.cpp" ABSOLUTE)
 dart_add_core_headers(${dart_hpp})
+dart_add_core_headers(${dart-c_h})
+dart_add_core_sources(${dart-c_cpp})
 get_property(dart_core_headers GLOBAL PROPERTY DART_CORE_HEADERS)
 get_property(dart_core_sources GLOBAL PROPERTY DART_CORE_SOURCES)
 
@@ -179,5 +183,6 @@ if(MSVC)
 endif()
 
 install(FILES dart.hpp DESTINATION include/dart/ COMPONENT headers)
+install(FILES dart-c.h DESTINATION include/dart/ COMPONENT headers)
 
 dart_format_add(${dart_core_headers} ${dart_core_sources})
